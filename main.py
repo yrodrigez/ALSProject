@@ -18,6 +18,7 @@ import os
 import jinja2
 import webapp2
 import time
+from Classes import person
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -39,6 +40,9 @@ class MainHandler(webapp2.RequestHandler):
             self.name = self.name[0].upper() + self.name[1:]
         else:
             self.name = "nombre incorrecto"
+
+        p = person.Person(name=self.name)
+        p.put()
         template_values = {
             'name': self.name
         }
