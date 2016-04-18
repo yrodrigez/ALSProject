@@ -17,40 +17,36 @@
 import os
 import jinja2
 import webapp2
-import time
-from Classes import person
+from Handlers.tareas import TareasHandler
+from google.appengine.api import users
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=["jinja2.ext.autoescape"],
-    autoescape=True)
+    autoescape=True
+)
 
 
 class MainHandler(webapp2.RequestHandler):
-    def __init__(self, request=None, response=None):
-        self.initialize(request, response)
-        self.name = self.request.get("edName", "anonymous")
-        self.time = time.ctime()
-
     def get(self):
-        pass
-
-    def post(self):
-        if len(self.name) > 0:
-            self.name = self.name[0].upper() + self.name[1:]
+        user_name = "Please login"
+        user = users.get_current_user()
+        if user is not None:
+            self.redirect("/main")
+            return
         else:
-            self.name = "nombre incorrecto"
+            login_link = users.create_login_url("/main")
 
-        p = person.Person(name=self.name)
-        p.put()
         template_values = {
-            'name': self.name
+            "user_name": user_name,
+            "login_link": login_link,
         }
 
-        template = JINJA_ENVIRONMENT.get_template("answer.html")
+        template = JINJA_ENVIRONMENT.get_template("templates/index.html")
         self.response.write(template.render(template_values))
 
 
 app = webapp2.WSGIApplication([
-    ('/doit', MainHandler)
+    ('/', MainHandler),
+    ('/list', TareasHandler)
 ], debug=True)
