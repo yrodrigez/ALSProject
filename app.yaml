@@ -6,7 +6,7 @@ threadsafe: yes
 
 handlers:
 - url: /
-  static_files: index.html
+  static_files: templates/index.html
   upload: index\.html
 
 - url: /favicon\.ico
