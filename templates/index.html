@@ -26,7 +26,7 @@
 </head>
 <body>
 <body>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="border-radius: 0">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -42,9 +42,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li><a href="#">Home<span class="sr-only"></span></a></li>
-                        <li><a href="#">Link</a></li>
                         {% if user %}
-                           <li><p class="navbar-text navbar-right">Iniciado sesión como  {{ user.name }}<a href="{{ logout_url }}" class="navbar-link">Salir</a></p></li>
+                        <li><a href="#">Mis tareas</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user %}
+                           <li><p class="navbar-text navbar-right">Iniciado sesión como {{ user.name }} <a href="{{ logout_url }}" class="navbar-link">Salir</a></p></li>
                         {% else %}
                             <li class="navbar-right"><a href="{{ login_link }}">Loguéate</a></li>
                         {% endif %}
@@ -52,8 +56,8 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-<div class="container-fluid">
-
+<div class="container-fluid well well-lg">
+     {% block contenido %}{% endblock %}
 </div>
 </body>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

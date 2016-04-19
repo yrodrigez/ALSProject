@@ -12,15 +12,16 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 
-class TareasHandler(webapp2.RedirectHandler):
+class ListarTareas(webapp2.RedirectHandler):
     def get(self):
         pass
 
-    def put(self):
+
+class AddTarea(webapp2.RedirectHandler):
+    def get(self):
         pass
 
+
+class BorrarTarea(webapp2.RedirectHandler):
     def post(self):
-        pass
-
-    def delete(self):
         pass

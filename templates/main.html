@@ -1,0 +1,14 @@
+{% extends "templates/index.html" %}
+{% block site %}Main{% endblock %}
+{% block contenido %}
+<div class="col col-md-12">
+    <h3>Necesitas logearte para acceder a tus tareas</h3>
+    <div class="row">
+        <div class="col col-md-9">
+        </div>
+        <div class="col-md-1">
+            <a class="button btn-primary btn-lg" href="{{ login_link }}">Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
