@@ -8,10 +8,12 @@
         </div>
         <ul class="list-group">
             <!-- tareas -->
+            {% for i in tareas %}
             <li class="list-group-item">
-                <span class="badge">14</span>
-                Cras justo odio
+                <span class="badge">{{ i.fecha_entrega }}</span>
+                {{ i.titulo }}
             </li>
+            {% endfor %}
             <!-- /.tareas -->
         </ul>
         <div class="row">

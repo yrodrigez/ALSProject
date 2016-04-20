@@ -15,12 +15,12 @@
 # limitations under the License.
 #
 import os
+
 import jinja2
 import webapp2
-
 from google.appengine.api import users
 
-from Handlers.tareas import ListarTareas
+from tareas import ListarTareas
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -31,9 +31,13 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        user_name = users.get_current_user().nickname()
+        user = users.get_current_user()
+        user_name = ""
         login_link = users.create_login_url("/list")
-        logout_link = users.create_logout_url("/")
+        logout_link = users.create_logout_url("/list")
+
+        if user is not None:
+            self.redirect("/list")
 
         template_values = {
             "user_name": user_name,
