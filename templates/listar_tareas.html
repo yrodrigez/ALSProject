@@ -1,24 +1,26 @@
 {% extends "templates/index.html" %}
 {% block site %}Listado de tareas{% endblock %}
 {% block contenido %}
-        <div class="col col-md-12">
+    <div class="col col-md-12">
         <div class="row">
-            <div class="col col-md-7"></div>
-            <div class="col col-md-3"><a class="button btn-primary btn-lg" href="{{ add_link }}">Add</a></div>
+            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px"><a class="btn btn-primary " href="/addtarea">Add</a></div>
         </div>
-        <ul class="list-group">
-            <!-- tareas -->
-            {% for i in tareas %}
-            <li class="list-group-item">
-                <span class="badge">{{ i.fecha_entrega }}</span>
-                {{ i.titulo }}
-            </li>
-            {% endfor %}
-            <!-- /.tareas -->
-        </ul>
         <div class="row">
-            <div class="col col-md-7"></div>
-            <div class="col col-md-3"><a class="button btn-default btn-lg">Add</a></div>
+            <div class="col col-md-12">
+                <ul class="list-group">
+                    <!-- tareas -->
+                    {% for i in tareas %}
+                        <li class="list-group-item">
+                            <span class="badge">{{ i.fecha_entrega }}</span>
+                            {{ i.titulo }}
+                        </li>
+                    {% endfor %}
+                    <!-- /.tareas -->
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-1 col-md-offset-11"><a class="btn btn-primary" href="/addtarea">Add</a></div>
         </div>
     </div>
 {% endblock %}

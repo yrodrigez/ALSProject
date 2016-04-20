@@ -1,0 +1,20 @@
+{% extends "templates/index.html" %}
+{% block site %}Agregando tarea{% endblock %}
+{% block contenido %}
+    <form role="form" method="post" action="/addtarea">
+        <fieldset>
+            <legend>Agregar tarea:</legend>
+            <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input name="titulo" type="text" class="form-control" id="titulo">
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripcion:</label>
+                <textarea name="descripcion" class="form-control" id="descripcion"></textarea>
+                <label for="fecha">Fecha entrega:</label>
+                <input name="fecha" class="form-control" type="datetime-local" id="fecha">
+            </div>
+            <input type="submit" class="btn btn-lg btn-primary" value="Add">
+        </fieldset>
+    </form>
+{% endblock %}

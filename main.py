@@ -21,6 +21,7 @@ import webapp2
 from google.appengine.api import users
 
 from tareas import ListarTareas
+from tareas import AddTarea
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -43,6 +44,7 @@ class MainHandler(webapp2.RequestHandler):
             "user_name": user_name,
             "login_link": login_link,
             "logout_link": logout_link,
+            "user": user
         }
 
         template = JINJA_ENVIRONMENT.get_template("templates/main.html")
@@ -51,5 +53,6 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/list', ListarTareas)
+    ('/list', ListarTareas),
+    ('/addtarea', AddTarea)
 ], debug=True)
