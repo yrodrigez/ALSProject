@@ -11,7 +11,8 @@
                     <!-- tareas -->
                     {% for i in tareas %}
                         <li class="list-group-item">
-                            <span class="badge">{{ i.fecha_entrega }}</span>
+                            <span class="badge">{{ i.fecha_entrega }} </span>
+                            <span class="badge glyphicon glyphicon-remove"></span>
                             {{ i.titulo }}
                         </li>
                     {% endfor %}
