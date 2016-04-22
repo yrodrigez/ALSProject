@@ -25,8 +25,13 @@ class ListarTareas(webapp2.RedirectHandler):
             logout_link = users.create_logout_url("/")
             tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
             error = ""
+            info = ""
             try:
                 error = self.request.GET["error"]
+            except:
+                pass
+            try:
+                info = self.request.GET["info"]
             except:
                 pass
 
@@ -35,7 +40,8 @@ class ListarTareas(webapp2.RedirectHandler):
                 "logout_link": logout_link,
                 "tareas": tareas,
                 "user": self.user,
-                "error": error
+                "error": error,
+                "info": info
             }
 
             template = JINJA_ENVIRONMENT.get_template('templates/listar_tareas.html')
@@ -68,32 +74,25 @@ class AddTarea(webapp2.RedirectHandler):
 
     def post(self):
         if self.user is not None:
-            logout_link = users.create_logout_url("/")
-            tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
-
-            template_values = {
-                "user_name": self.user.nickname(),
-                "logout_link": logout_link,
-                "tareas": tareas,
-                "user": self.user
-            }
-
             tarea = Tarea()
             tarea.user = self.user.user_id()
             tarea.titulo = self.request.get("titulo").strip()
             tarea.descripcion = self.request.get("descripcion")
 
             fecha = self.request.get("fecha").strip().split("-")
-            dia_hora = fecha[2].split("T")
-            hora = dia_hora[1].split(":")
-            m_fecha = datetime(int(fecha[0]), int(fecha[1]), int(dia_hora[0]), int(hora[0]), int(hora[1]))
+            try:
+                dia_hora = fecha[2].split("T")
+                hora = dia_hora[1].split(":")
+                m_fecha = datetime(int(fecha[0]), int(fecha[1]), int(dia_hora[0]), int(hora[0]), int(hora[1]))
 
-            tarea.fecha_entrega = m_fecha
+                tarea.fecha_entrega = m_fecha
 
-            tarea.put()
-            time.sleep(1)
+                tarea.put()
+                time.sleep(1)
 
-            self.redirect("/")
+                self.redirect("/list?info=Tarea agregada")
+            except:
+                self.redirect("/list?error=La fecha es vacia")
         else:
             self.redirect("/")
 

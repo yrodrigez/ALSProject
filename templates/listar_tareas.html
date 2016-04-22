@@ -35,8 +35,11 @@
     </div>
     <script>
             var error = '{{ error }}';
-            if(error != "")
-                alertify.error('{{ error }}');
+            var info = '{{ info }}';
+            if(info != '')
+                    alertify.info('Info: {{ info }}');
+            if(error != '')
+                alertify.error('Error: {{ error }}');
     </script>
 {% endblock %}
 

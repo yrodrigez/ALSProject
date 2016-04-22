@@ -39,7 +39,6 @@ class MainHandler(webapp2.RequestHandler):
         login_link = users.create_login_url("/list")
         logout_link = users.create_logout_url("/list")
 
-
         if user is not None:
             self.redirect("/list")
 
@@ -48,7 +47,6 @@ class MainHandler(webapp2.RequestHandler):
             "login_link": login_link,
             "logout_link": logout_link,
             "user": user,
-            "error": error
         }
 
         template = JINJA_ENVIRONMENT.get_template("templates/main.html")
