@@ -3,25 +3,41 @@
 {% block contenido %}
     <div class="col col-md-12">
         <div class="row">
-            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px"><a class="btn btn-primary " href="/addtarea">Add</a></div>
+            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px"><a class="btn btn-primary" href="/addtarea"><span class="glyphicon glyphicon-plus"></span></a></div>
         </div>
         <div class="row">
             <div class="col col-md-12">
                 <ul class="list-group">
                     <!-- tareas -->
-                    {% for i in tareas %}
-                        <li class="list-group-item">
-                            <span class="badge">{{ i.fecha_entrega }} </span>
-                            <span class="badge glyphicon glyphicon-remove"></span>
-                            {{ i.titulo }}
-                        </li>
-                    {% endfor %}
+                    {% if tareas.count() > 0 %}
+                        {% for i in tareas %}
+                            <form action="/borrar_tarea" method="post">
+                                <li class="list-group-item" style="padding-bottom: 30px; padding-top: 15px">
+                                    {{ i.titulo }}<i style="margin-right: 5px"></i>({{ i.fecha_entrega }})
+                                    <input name="id" type="hidden" value="{{ i.key.urlsafe() }}">
+                                    <div class="btn-group" role="group" style="float: right">
+                                        <a href="/edit_tarea?id={{ i.key.urlsafe() }}" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
+                                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
+                                    </div>
+                                </li>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <h3>¡No tienes tareas, dsisfruta de la vida!</h3>
+                    {% endif %}
                     <!-- /.tareas -->
                 </ul>
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-1 col-md-offset-11"><a class="btn btn-primary" href="/addtarea">Add</a></div>
+            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px"><a class="btn btn-primary" href="/addtarea"><span class="glyphicon glyphicon-plus"></span></a></div>
         </div>
     </div>
+    <script>
+            var error = '{{ error }}';
+            if(error != "")
+                alertify.error('{{ error }}');
+    </script>
 {% endblock %}
+
+
