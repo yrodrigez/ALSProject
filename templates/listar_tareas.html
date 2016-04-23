@@ -12,11 +12,12 @@
                     {% if tareas.count() > 0 %}
                         {% for i in tareas %}
                             <form action="/borrar_tarea" method="post">
-                                <li class="list-group-item" style="padding-bottom: 30px; padding-top: 15px">
+                                <li class="list-group-item" style="padding-bottom: 30px; padding-top: 15px; background-color: {{ i.color }}">
                                     {{ i.titulo }}<i style="margin-right: 5px"></i>({{ i.fecha_entrega }})
                                     <input name="id" type="hidden" value="{{ i.key.urlsafe() }}">
                                     <div class="btn-group" role="group" style="float: right">
                                         <a href="/edit_tarea?id={{ i.key.urlsafe() }}" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
+                                        <a href="/view_tarea?id={{ i.key.urlsafe() }}" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;</a>
                                         <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
                                     </div>
                                 </li>

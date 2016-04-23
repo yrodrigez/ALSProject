@@ -78,6 +78,7 @@ class AddTarea(webapp2.RedirectHandler):
             tarea.user = self.user.user_id()
             tarea.titulo = self.request.get("titulo").strip()
             tarea.descripcion = self.request.get("descripcion")
+            tarea.color = self.request.get("color")
 
             fecha = self.request.get("fecha").strip().split("-")
             try:
@@ -141,6 +142,7 @@ class EditTarea(webapp2.RedirectHandler):
             tarea = ndb.Key(urlsafe=self.request.get("id")).get()
             tarea.titulo = self.request.get("titulo").strip()
             tarea.descripcion = self.request.get("descripcion").strip()
+            tarea.color = self.request.get("color")
 
             fecha = self.request.get("fecha").strip().split("-")
             try:
@@ -153,8 +155,32 @@ class EditTarea(webapp2.RedirectHandler):
                 tarea.put()
                 time.sleep(1)
 
-                self.redirect("/")
+                self.redirect("/list?info=Tarea editada")
             except:
                 self.redirect("/list?error=La fecha es vacia")
+        else:
+            self.redirect("/")
+
+
+class ViewTarea(webapp2.RedirectHandler):
+    def __init__(self, request=None, response=None):
+        self.initialize(request, response)
+        self.user = users.get_current_user()
+
+    def get(self):
+        if self.user is not None:
+            logout_link = users.create_logout_url("/")
+            id = self.request.get("id")
+            tarea = ndb.Key(urlsafe=id).get()
+
+            template_values = {
+                "user_name": self.user.nickname(),
+                "logout_link": logout_link,
+                "user": self.user,
+                "tarea": tarea,
+            }
+
+            template = JINJA_ENVIRONMENT.get_template('templates/view_tarea.html')
+            self.response.write(template.render(template_values))
         else:
             self.redirect("/")

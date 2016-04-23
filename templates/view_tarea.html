@@ -1,0 +1,25 @@
+{% extends "templates/index.html" %}
+{% block site %}Modify{% endblock %}
+{% block contenido %}
+    {% if tarea %}
+        <div class="row">
+        <div class="col col-md-12" style="background-color: {{ tarea.color }}; border-radius: 5px; padding-top: 5px; padding-bottom: 5px">
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input name="titulo" type="text" class="form-control" id="titulo" value="{{ tarea.titulo }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripcion:</label>
+            <textarea name="descripcion" class="form-control" id="descripcion" disabled>{{ tarea.descripcion }}</textarea>
+            <label for="fecha">Fecha entrega:</label>
+            <input value="{{ tarea.fecha_entrega }}" name="fecha" class="form-control" type="text" id="fecha" disabled>
+        </div>
+        <div class="btn-group" role="group" style="float: right">
+            <a href="/" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-triangle-left"></span></a>
+        </div>
+        </div>
+        </div>
+    {% else %}
+        <h3>Oooops!, parece que tenemos un problema</h3>
+    {% endif%}
+{% endblock %}

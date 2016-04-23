@@ -10,3 +10,4 @@ class Tarea(ndb.Model):
     descripcion = ndb.StringProperty(required=True)
     user = ndb.StringProperty(required=True)
     id = ndb.StringProperty()
+    color = ndb.StringProperty()
