@@ -11,3 +11,4 @@ class Tarea(ndb.Model):
     user = ndb.StringProperty(required=True)
     id = ndb.StringProperty()
     color = ndb.StringProperty()
+    venciendo = ndb.BooleanProperty()

@@ -6,8 +6,7 @@ import os
 import webapp2
 import jinja2
 import time
-import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -24,6 +23,17 @@ class ListarTareas(webapp2.RedirectHandler):
         if self.user is not None:
             logout_link = users.create_logout_url("/")
             tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
+
+            for t in tareas:
+                if t.fecha_entrega < datetime.now():
+                    t.key.delete()
+                if t.fecha_entrega < datetime.now() + timedelta(days=7):
+                    t.venciendo = True
+                else:
+                    t.venciendo = False
+
+            tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
+
             error = ""
             info = ""
             try:

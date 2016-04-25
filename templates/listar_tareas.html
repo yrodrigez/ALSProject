@@ -1,6 +1,17 @@
 {% extends "templates/index.html" %}
 {% block site %}Listado de tareas{% endblock %}
 {% block contenido %}
+    <style>
+    .efecto-caja{
+        border: 1px solid #000000;
+        border-radius: 5px;
+        padding: 3px;
+        background-color: white;
+        -webkit-box-shadow: inset 0px 0px 300px -99px rgba(0,0,0,0.72);
+        -moz-box-shadow: inset 0px 0px 300px -99px rgba(0,0,0,0.72);
+        box-shadow: inset 0px 0px 300px -99px rgba(0,0,0,0.72);
+    }
+    </style>
     <div class="col col-md-12">
         <div class="row">
             <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px"><a class="btn btn-primary" href="/addtarea"><span class="glyphicon glyphicon-plus"></span></a></div>
@@ -12,8 +23,9 @@
                     {% if tareas.count() > 0 %}
                         {% for i in tareas %}
                             <form action="/borrar_tarea" method="post">
-                                <li class="list-group-item" style="padding-bottom: 30px; padding-top: 15px; background-color: {{ i.color }}">
-                                    {{ i.titulo }}<i style="margin-right: 5px"></i>({{ i.fecha_entrega }})
+                            {% if i.venciendo %}
+                                <li class="list-group-item animar"  style="padding-bottom: 30px; padding-top: 15px; background-color: {{ i.color }}">
+                                    <span class="efecto-caja" >{{ i.titulo }}<i style="margin-right: 5px"></i>({{ i.fecha_entrega }})<i style="margin-left: 10px"></i>¡¡¡¡QUEDA UNA SEMANA O MENOS!!!</span>
                                     <input name="id" type="hidden" value="{{ i.key.urlsafe() }}">
                                     <div class="btn-group" role="group" style="float: right">
                                         <a href="/edit_tarea?id={{ i.key.urlsafe() }}" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
@@ -21,10 +33,21 @@
                                         <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
                                     </div>
                                 </li>
+                            {% else %}
+                                <li class="list-group-item" style="padding-bottom: 30px; padding-top: 15px; background-color: {{ i.color }}">
+                                    <span class="efecto-caja" >{{ i.titulo }}<i style="margin-right: 5px"></i>({{ i.fecha_entrega }})</span>
+                                    <input name="id" type="hidden" value="{{ i.key.urlsafe() }}">
+                                    <div class="btn-group" role="group" style="float: right">
+                                        <a href="/edit_tarea?id={{ i.key.urlsafe() }}" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
+                                        <a href="/view_tarea?id={{ i.key.urlsafe() }}" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;</a>
+                                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
+                                    </div>
+                                </li>
+                            {% endif %}
                             </form>
                         {% endfor %}
                     {% else %}
-                        <h3>¡No tienes tareas, dsisfruta de la vida!</h3>
+                        <h3>¡No tienes tareas, disfruta de la vida!</h3>
                     {% endif %}
                     <!-- /.tareas -->
                 </ul>
@@ -41,6 +64,13 @@
                     alertify.info('Info: {{ info }}');
             if(error != '')
                 alertify.error('Error: {{ error }}');
+
+            var x = false;
+            setInterval(function() {
+                var colores = ["#FF0000", "#00FF00","#0000FF","#FFFF00", "#FF00FF"];
+                $("li.animar").css("background-color", colores[Math.floor(Math.random() * colores.length)]);
+            }, 500);
+
     </script>
 {% endblock %}
 

@@ -51,7 +51,6 @@
 
 </head>
 <body>
-<body>
 <nav class="navbar navbar-inverse" style="border-radius: 0">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -74,7 +73,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user %}
-                    <li class="navbar-text navbar-right" id="nombre-usuario" onmouseover="salir()" onmouseout="volver()" onmouseleave="volver()" style="padding-left: 60px"><p>Iniciada sesión como {{ user.nickname() }}&nbsp;&nbsp;</p></li>
+                    <li class="navbar-text navbar-right" id="nombre-usuario" onmouseenter="salir()" onmouseleave="volver()"  style="padding-left: 60px"><p>Iniciada sesión como {{ user.nickname() }}&nbsp;&nbsp;</p></li>
                 {% else %}
                     <li class="navbar-right"><a href="{{ login_link }}">Loguéate</a></li>
                 {% endif %}
@@ -94,21 +93,19 @@
 <script>
     function salir() {
         remover('#nombre-usuario > p');
-        $('#nombre-usuario').append('<p><a href="{{ logout_url }}" class="navbar-link">Salir</a>&nbsp;&nbsp;');
+        $('#nombre-usuario').append('<p><a href="{{ logout_link }}" class="navbar-link">Salir</a>&nbsp;&nbsp;');
     }
     {% if user %}
         function volver() {
             remover('#nombre-usuario > p');
             $('#nombre-usuario').append('<p>Iniciada sesión como {{ user.nickname() }}&nbsp;&nbsp;</p>');
         }
-    {% else%}
-        function volver() {}
     {% endif %}
     function remover(elemento) {
         $(elemento).remove()
+
     }
 </script>
-</body>
 </html>
 
 
