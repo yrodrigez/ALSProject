@@ -101,9 +101,9 @@ class AddTarea(webapp2.RedirectHandler):
                 tarea.put()
                 time.sleep(1)
 
-                self.redirect("/list?info=Tarea agregada")
+                self.redirect("/list")
             except:
-                self.redirect("/list?error=La fecha es vacia")
+                self.redirect("/list?error=Error AddTarea")
         else:
             self.redirect("/")
 
@@ -119,7 +119,7 @@ class BorrarTarea(webapp2.RedirectHandler):
             tarea = ndb.Key(urlsafe=id).get()
             tarea.key.delete()
             time.sleep(1)
-            self.redirect("/")
+            self.redirect("/list?info=Tarea "+tarea.titulo+" eliminada")
         else:
             self.redirect("/")
 

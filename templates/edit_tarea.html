@@ -13,7 +13,9 @@
                         </div>
                         <div class="form-group">
                             <label for="descripcion">Descripcion:</label>
-                            <textarea name="descripcion" class="form-control" id="descripcion">{{ tarea.descripcion }}</textarea>
+                            <textarea name="descripcion" class="form-control" id="descripcion">
+                                {{ tarea.descripcion }}
+                            </textarea>
                             <label for="fecha">Fecha entrega:</label>
                             <input value="{{ tarea.fecha_entrega }}" name="fecha" class="form-control" type="datetime-local" id="fecha">
                             <label for="color">Color: </label>
@@ -22,7 +24,9 @@
                         <input name="id" type="hidden" value="{{ tarea.key.urlsafe() }}">
                         <div class="btn-group" role="group" style="float: right">
                             <a  href="/" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-triangle-left"></span></a>
-                            <button type="submit" class="btn btn-lg btn-success" style="float: right"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button type="submit" class="btn btn-lg btn-success" style="float: right">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
                         </div>
                     </fieldset>
                 </form>

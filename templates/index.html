@@ -16,7 +16,6 @@
 
     <!-- Latest compiled and minified JavaScript -->
 
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -46,9 +45,6 @@
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.6.1/css/themes/bootstrap.rtl.min.css"/>
 
-
-
-
 </head>
 <body>
 <nav class="navbar navbar-inverse" style="border-radius: 0">
@@ -66,16 +62,24 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home<span class="sr-only"></span></a></li>
+                <li>
+                    <a href="/">Home<span class="sr-only"></span></a>
+                </li>
                 {% if user %}
-                    <li><a href="/list">Mis tareas</a></li>
+                    <li>
+                        <a href="/list">Mis tareas</a>
+                    </li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user %}
-                    <li class="navbar-text navbar-right" id="nombre-usuario" onmouseenter="salir()" onmouseleave="volver()"  style="padding-left: 60px"><p>Iniciada sesión como {{ user.nickname() }}&nbsp;&nbsp;</p></li>
+                    <li class="navbar-text navbar-right" id="nombre-usuario" onmouseenter="salir()" onmouseleave="volver()"  style="padding-left: 60px">
+                        <p>Iniciada sesión como {{ user.nickname() }}&nbsp;&nbsp;</p>
+                    </li>
                 {% else %}
-                    <li class="navbar-right"><a href="{{ login_link }}">Loguéate</a></li>
+                    <li class="navbar-right">
+                        <a href="{{ login_link }}">Loguéate</a>
+                    </li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->
