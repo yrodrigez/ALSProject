@@ -7,6 +7,7 @@ import webapp2
 import jinja2
 import time
 from datetime import datetime, timedelta
+from asignaturas import Asignatura
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -22,40 +23,63 @@ class ListarTareas(webapp2.RedirectHandler):
     def get(self):
         if self.user is not None:
             logout_link = users.create_logout_url("/")
-            tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
+            asignaturas = Asignatura.query(Asignatura.user == self.user.user_id())
 
-            for t in tareas:
-                if t.fecha_entrega < datetime.now():
-                    t.key.delete()
-                if t.fecha_entrega < datetime.now() + timedelta(days=7):
-                    t.venciendo = True
+            if asignaturas.count() < 1:
+                template_values = {
+                    "user_name": self.user.nickname(),
+                    "logout_link": logout_link,
+                    "asignaturas": asignaturas,
+                    "user": self.user,
+                }
+
+                template = JINJA_ENVIRONMENT.get_template('templates/asignaturas/listar.html')
+                self.response.write(template.render(template_values))
+            else:
+                asignatura = None
+                try:
+                    asignatura = self.request.GET["id"]
+                except:
+                    pass
+
+                if asignatura:
+                    tareas = Tarea.query(
+                        Tarea.user == self.user.user_id(), Tarea.asignatura == ndb.Key(urlsafe=asignatura)
+                    ).order(Tarea.fecha_entrega)
                 else:
-                    t.venciendo = False
+                    tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
 
-            tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
+                for t in tareas:
+                    if t.fecha_entrega < datetime.now():
+                        t.key.delete()
+                    if t.fecha_entrega < datetime.now() + timedelta(days=7):
+                        t.venciendo = True
+                    else:
+                        t.venciendo = False
 
-            error = ""
-            info = ""
-            try:
-                error = self.request.GET["error"]
-            except:
-                pass
-            try:
-                info = self.request.GET["info"]
-            except:
-                pass
+                error = ""
+                info = ""
 
-            template_values = {
-                "user_name": self.user.nickname(),
-                "logout_link": logout_link,
-                "tareas": tareas,
-                "user": self.user,
-                "error": error,
-                "info": info
-            }
+                try:
+                    error = self.request.GET["error"]
+                except:
+                    pass
+                try:
+                    info = self.request.GET["info"]
+                except:
+                    pass
 
-            template = JINJA_ENVIRONMENT.get_template('templates/listar_tareas.html')
-            self.response.write(template.render(template_values))
+                template_values = {
+                    "user_name": self.user.nickname(),
+                    "logout_link": logout_link,
+                    "tareas": tareas,
+                    "user": self.user,
+                    "error": error,
+                    "info": info
+                }
+
+                template = JINJA_ENVIRONMENT.get_template('templates/tareas/listar.html')
+                self.response.write(template.render(template_values))
         else:
             self.redirect("/")
 
@@ -68,16 +92,16 @@ class AddTarea(webapp2.RedirectHandler):
     def get(self):
         if self.user is not None:
             logout_link = users.create_logout_url("/")
-            tareas = Tarea.query(Tarea.user == self.user.user_id()).order(Tarea.fecha_entrega)
+            asignaturas = Asignatura.query(Asignatura.user == self.user.user_id())
 
             template_values = {
                 "user_name": self.user.nickname(),
                 "logout_link": logout_link,
-                "tareas": tareas,
-                "user": self.user
+                "user": self.user,
+                "asignaturas": asignaturas
             }
 
-            template = JINJA_ENVIRONMENT.get_template('templates/add_tarea.html')
+            template = JINJA_ENVIRONMENT.get_template('templates/tareas/add.html')
             self.response.write(template.render(template_values))
         else:
             self.redirect("/")
@@ -89,7 +113,7 @@ class AddTarea(webapp2.RedirectHandler):
             tarea.titulo = self.request.get("titulo").strip()
             tarea.descripcion = self.request.get("descripcion")
             tarea.color = self.request.get("color")
-
+            tarea.asignatura = ndb.Key(urlsafe=self.request.get("asignatura"))
             fecha = self.request.get("fecha").strip().split("-")
             try:
                 dia_hora = fecha[2].split("T")
@@ -134,15 +158,17 @@ class EditTarea(webapp2.RedirectHandler):
             logout_link = users.create_logout_url("/")
             id = self.request.get("id")
             tarea = ndb.Key(urlsafe=id).get()
+            asignaturas = Asignatura.query(Asignatura.user == self.user.user_id())
 
             template_values = {
                 "user_name": self.user.nickname(),
                 "logout_link": logout_link,
                 "user": self.user,
                 "tarea": tarea,
+                "asignaturas": asignaturas,
             }
 
-            template = JINJA_ENVIRONMENT.get_template('templates/edit_tarea.html')
+            template = JINJA_ENVIRONMENT.get_template('templates/tareas/edit.html')
             self.response.write(template.render(template_values))
         else:
             self.redirect("/")
@@ -153,6 +179,7 @@ class EditTarea(webapp2.RedirectHandler):
             tarea.titulo = self.request.get("titulo").strip()
             tarea.descripcion = self.request.get("descripcion").strip()
             tarea.color = self.request.get("color")
+            tarea.asignatura = ndb.Key(urlsafe=self.request.get("asignatura"))
 
             fecha = self.request.get("fecha").strip().split("-")
             try:
@@ -190,7 +217,7 @@ class ViewTarea(webapp2.RedirectHandler):
                 "tarea": tarea,
             }
 
-            template = JINJA_ENVIRONMENT.get_template('templates/view_tarea.html')
+            template = JINJA_ENVIRONMENT.get_template('templates/tareas/view.html')
             self.response.write(template.render(template_values))
         else:
             self.redirect("/")

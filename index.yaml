@@ -12,5 +12,11 @@ indexes:
 
 - kind: Tarea
   properties:
+  - name: asignatura
+  - name: user
+  - name: fecha_entrega
+
+- kind: Tarea
+  properties:
   - name: user
   - name: fecha_entrega

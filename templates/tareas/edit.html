@@ -20,6 +20,12 @@
                             <input value="{{ tarea.fecha_entrega }}" name="fecha" class="form-control" type="datetime-local" id="fecha">
                             <label for="color">Color: </label>
                             <input id="color" name="color" type="color" class="form-control">
+                            <label for="asignatura"></label>
+                            <select name="asignatura" class="form-control" id="asignatura">
+                                {% for a in asignaturas %}
+                                    <option value="{{ a.key.urlsafe() }}">{{ a.nombre }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <input name="id" type="hidden" value="{{ tarea.key.urlsafe() }}">
                         <div class="btn-group" role="group" style="float: right">

@@ -1,0 +1,60 @@
+{% extends "templates/index.html" %}
+{% block site %}Mis Asignaturas{% endblock %}
+{% block contenido %}
+    <style>
+        .efecto-caja{border:1px solid #000000;border-radius: 5px;padding: 3px;background-color: white;-webkit-box-shadow: inset 0 0 300px -99px rgba(0,0,0,0.72);-moz-box-shadow: inset 0 0 300px -99px rgba(0,0,0,0.72);box-shadow: inset 0 0 300px -99px rgba(0,0,0,0.72);}
+    </style>
+    <div class="col col-md-12">
+        <div class="row">
+            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px">
+                <a class="btn btn-primary" href="/addasignatura">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-12">
+                <ul class="list-group">
+                    <!-- asignaturas -->
+                    {% if asignaturas.count() > 0 %}
+                        {% for i in asignaturas %}
+                            <form action="/borrar_asignatura" method="post">
+                                <li class="list-group-item"  style="padding-bottom: 30px; padding-top: 15px; background-color: {{ i.color }}">
+                                    <span class="efecto-caja"> {{ i.nombre }} </span>
+                                    <input name="id" type="hidden" value="{{ i.key.urlsafe() }}">
+                                    <div class="btn-group" role="group" style="float: right">
+                                        <a href="/list?id={{ i.key.urlsafe() }}" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-search"></span>&nbsp;
+                                        </a>
+                                        <button type="submit" class="btn btn-danger">
+                                            <span class="glyphicon glyphicon-trash"></span>&nbsp;
+                                        </button>
+                                    </div>
+                                </li>
+
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <h3 style="background-color: white">¡Aun no tienes asignaturas, tienes que agregarlas para agregar tareas!</h3>
+                    {% endif %}
+                    <!-- /.asignaturas -->
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-1 col-md-offset-11" style="margin-bottom: 20px">
+                <a class="btn btn-primary" href="/addasignatura">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var error = '{{ error }}';
+        var info = '{{ info }}';
+        if(info != '')
+            alertify.success('Info: {{ info }}');
+        if(error != '')
+            alertify.error('Error: {{ error }}');
+    </script>
+{% endblock %}

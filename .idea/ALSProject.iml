@@ -32,8 +32,8 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/templates/asignaturas" />
         <option value="$MODULE_DIR$/templates/tareas" />
-        <option value="$MODULE_DIR$/templates/users" />
       </list>
     </option>
   </component>

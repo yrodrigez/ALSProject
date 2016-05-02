@@ -1,0 +1,41 @@
+{% extends "templates/index.html" %}
+{% block site %}Agregando tarea{% endblock %}
+{% block contenido %}
+    <div class="row">
+        <div class="col col-md-12">
+            <form onsubmit="return comprobarFormulario()" role="form" method="post" action="/addasignatura" >
+                <fieldset>
+                    <legend>Agregar asignatura:</legend>
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input name="nombre" type="text" class="form-control" id="nombre">
+                    </div>
+                    <div class="btn-group" role="group" style="float: right">
+                        <a  href="/" class="btn btn-lg btn-default">
+                            <span class="glyphicon glyphicon-triangle-left"></span>
+                        </a>
+                        <button type="submit" class="btn btn-lg btn-primary">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <script>
+    function comprobarFormulario() {
+        var nombre = $('input#nombre').val();
+        var ret = true;
+
+        if(nombre.trim() == "" || nombre.length < 1) {
+            alertify.error("El nombre es vacío");
+
+            ret = false;
+        }
+
+        if(ret){ alertify.success("Agregado asignatura..."); }
+
+        return ret;
+    }
+    </script>
+{% endblock %}

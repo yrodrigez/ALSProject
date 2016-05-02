@@ -25,6 +25,9 @@ from tareas import AddTarea
 from tareas import BorrarTarea
 from tareas import EditTarea
 from tareas import ViewTarea
+from asignaturas import ListarAsignaturas
+from asignaturas import AddAsignatura
+from asignaturas import BorrarAsignatura
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -61,5 +64,9 @@ app = webapp2.WSGIApplication([
     ('/borrar_tarea', BorrarTarea),
     ('/edit_tarea', EditTarea),
     ('/view_tarea', ViewTarea),
+    ('/listar_asignaturas', ListarAsignaturas),
+    ('/addasignatura', AddAsignatura),
+    ('/borrar_asignatura', BorrarAsignatura),
+
 
 ], debug=True)
